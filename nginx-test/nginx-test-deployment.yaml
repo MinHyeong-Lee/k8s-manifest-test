@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-test-deployment
+spec:
+  replicas: 1
+  minReadySeconds: 5
+  selector:
+    matchLabels: # .selector.matchLabels는 Pod를 식별하는 데 사용함
+      app: nginx-test-deployment
+      tier: frontend
+  template:
+    metadata: # .spec.template.metadata.labels는 spec.selector와 일치해야 함
+      name: nginx-test-deployment-pod
+      labels:
+        app: nginx-test-deployment
+        tier: frontend
+    spec:
+      containers:
+      - name: nginx-test-deployment
+        image: noon-ai-dis.ncr.gov-ntruss.com/noon-ai-dis-web:v0.1.0
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "200m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+        - name: container-registry-secret
