@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: nginx-test-deployment
 spec:
-  replicas: 3
+  replicas: 1
   minReadySeconds: 5
   selector:
     matchLabels: # .selector.matchLabels는 Pod를 식별하는 데 사용함
