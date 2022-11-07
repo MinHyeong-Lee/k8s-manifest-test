@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: nginx-test-deployment
-        image: noon-ai-dis.ncr.gov-ntruss.com/noon-ai-dis-web:v0.0.9
+        image: noon-ai-dis.ncr.gov-ntruss.com/noon-ai-dis-web:v0.1.0
         imagePullPolicy: Always
         resources:
           requests:
