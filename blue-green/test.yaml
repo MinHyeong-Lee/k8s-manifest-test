@@ -32,7 +32,7 @@ spec:
     blueGreen: 
       activeService: nginx-test-deployment-active
       previewService: nginx-test-deployment-preview
-      autoPromotionEnabled: false
+      autoPromotionEnabled: true
 
 ---
 kind: Service
