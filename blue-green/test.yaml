@@ -1,56 +1,62 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: rollout-bluegreen
+  name: nginx-test-deployment
 spec:
-  replicas: 2
+  replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: rollout-bluegreen
+      app: nginx-test-deployment
+      tier: frontend
   template:
     metadata:
+      name: nginx-test-deployment-pod
       labels:
-        app: rollout-bluegreen
+        app: nginx-test-deployment
+        tier: frontend
     spec:
       containers:
-      - name: rollouts-demo
-        image: argoproj/rollouts-demo:green
+      - name: nginx-test-deployment
+        image: noon-ai-dis.ncr.gov-ntruss.com/noon-ai-dis-web:v0.1.0
         imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "200m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
         ports:
-        - containerPort: 8080
+        - containerPort: 80
+      imagePullSecrets:
+        - name: container-registry-secret
   strategy:
     blueGreen: 
-      activeService: rollout-bluegreen-active
-      previewService: rollout-bluegreen-preview
+      activeService: web-deployment-svc-active
+      previewService: web-deployment-svc-preview
       autoPromotionEnabled: false
 
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: rollout-bluegreen-active
+  name: web-deployment-svc-active
 spec:
   selector:
-    app: rollout-bluegreen
+    app: nginx-test-deployment
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 8080
-    nodePort: 30081
-  type: NodePort
 
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: rollout-bluegreen-preview
+  name: web-deployment-svc-preview
 spec:
   selector:
-    app: rollout-bluegreen
+    app: nginx-test-deployment
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 8080
-    nodePort: 30082
-  type: NodePort
