@@ -1,13 +1,12 @@
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: web-deployment
-  namespace: default
+  name: hpa-nginx-test-deployment
 spec:
-  maxReplicas: 10
+  maxReplicas: 6
   minReplicas: 1
   scaleTargetRef:
-    apiVersion: apps/v1
+    apiVersion: argoproj.io/v1alpha1
     kind: Rollout
     name: nginx-test-deployment
-  targetCPUUtilizationPercentage: 50
+  targetCPUUtilizationPercentage: 80
