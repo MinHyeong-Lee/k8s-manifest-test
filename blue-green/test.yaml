@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: rollout-bluegreen
+  name: nginx-test-deployment
 spec:
   replicas: 2
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: rollout-bluegreen
+      app: nginx-test-deployment
   template:
     metadata:
       labels:
-        app: rollout-bluegreen
+        app: nginx-test-deployment
     spec:
       containers:
       - name: rollouts-demo
@@ -30,36 +30,34 @@ spec:
         - name: container-registry-secret
   strategy:
     blueGreen: 
-      activeService: rollout-bluegreen-active
-      previewService: rollout-bluegreen-preview
+      activeService: nginx-test-deployment-active
+      previewService: nginx-test-deployment-preview
       autoPromotionEnabled: false
 
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: rollout-bluegreen-active
+  name: nginx-test-deployment-active
 spec:
   selector:
-    app: rollout-bluegreen
+    app: nginx-test-deployment
   ports:
-  - protocol: TCP
+  - name: http
+    protocol: TCP
     port: 80
-    targetPort: 8080
-    nodePort: 30081
-  type: NodePort
+    targetPort: 80
 
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: rollout-bluegreen-preview
+  name: nginx-test-deployment-preview
 spec:
   selector:
-    app: rollout-bluegreen
+    app: nginx-test-deployment
   ports:
-  - protocol: TCP
+  - name: http
+    protocol: TCP
     port: 80
-    targetPort: 8080
-    nodePort: 30082
-  type: NodePort
+    targetPort: 80
