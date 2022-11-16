@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: rollouts-demo
-        image: noon-ai-dis.ncr.gov-ntruss.com/noon-ai-dis-web:v0.1.0
+        image: noon-ai-dis.ncr.gov-ntruss.com/noon-ai-dis-web:v0.1.1
         imagePullPolicy: Always
         resources:
           requests:
