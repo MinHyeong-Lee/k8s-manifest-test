@@ -11,7 +11,6 @@ spec:
       tier: frontend
   template:
     metadata:
-      name: nginx-test-deployment-pod
       labels:
         app: nginx-test-deployment
         tier: frontend
@@ -41,7 +40,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: web-deployment-svc-active
+  name: nginx-test-deployment-active
 spec:
   selector:
     app: nginx-test-deployment
@@ -53,7 +52,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: web-deployment-svc-preview
+  name: nginx-test-deployment-preview
 spec:
   selector:
     app: nginx-test-deployment
